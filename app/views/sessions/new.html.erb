@@ -1,0 +1,11 @@
+<h1>Log In or Get Out</h1>
+
+<%= form_for :session do |f| %>
+  <%= f.label :email %>
+  <%= f.text_field :email %>
+
+  <%= f.label :password %>
+  <%= f.text_field :password %>
+
+  <%= f.submit "Log In" %>
+<% end %>

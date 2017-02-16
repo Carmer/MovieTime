@@ -2,10 +2,14 @@ require 'rails_helper'
 
 RSpec.feature "User can create movies" do
   context "Authorized user" do
-    xscenario "can create a movie" do
+    scenario "can create a movie" do
       #prepare data
+      user = User.create(username: "RegUser", email: "reguser@example.com", password: "password", role: 1)
+
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user)
 
       visit movies_path
+
       click_on "Add a Movie"
 
       fill_in "Title", with: "Titanic"
@@ -40,5 +44,12 @@ RSpec.feature "User can create movies" do
         expect(page).to have_content("Released: 2005")
       end
     end
+  end
+
+  scenario "default user cannot see movies" do
+    user = User.create(username: "RegUser", email: "reguser@example.com", password: "password", role: 0)
+    visit new_movie_path
+
+    expect(page).to have_content "404"
   end
 end
